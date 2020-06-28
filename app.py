@@ -46,7 +46,7 @@ def get_lyrics(search):
 			return mytag.text
 		except Exception as e:
 			print(e)
-			return "Not found"
+			return "Not found", 404
 
 	# Get lyrics from `genius.com`
 	def get_from_genius(url):
@@ -58,7 +58,7 @@ def get_lyrics(search):
 			mytag = mytag.parent
 			return mytag.text
 		except:
-			return "Not found"
+			return "Not found", 404
 
 	# Get lyrics from `metrolyrics.com`
 	def get_from_metrolyrics(url):
@@ -68,13 +68,13 @@ def get_lyrics(search):
 		try:
 			mytag = soup.find_all("p", "verse")
 			if len(mytag) == 0:
-				return "Not found"
+				return "Not found", 404
 			lyrics = ''
 			for lyric in mytag:
 				lyrics += lyric.text + '\n\n'
 			return lyrics
 		except:
-			return "Not found"
+			return "Not found", 404
 
 	# List to store the functions to get lyrics from each website
 	get_from = [get_from_azlyrics, get_from_genius, get_from_metrolyrics]
@@ -97,7 +97,7 @@ def get_lyrics(search):
 
 		# If link not found, move to the next site
 		if anchor == None:
-			print("Not found on " + sites[i])
+			print("Not found on " + sites[i]), 404
 			continue
 
 		# Get the url of the lyrics
